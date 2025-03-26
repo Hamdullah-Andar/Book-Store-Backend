@@ -5,7 +5,7 @@ const port = process.env.PORT || 5000;
 
 // routes
 app.use("/", (req, res) => {
-    res.send("Book Store server!");
+    res.send("Book Store server is Running!");
 })
 
 app.listen(port, () => {

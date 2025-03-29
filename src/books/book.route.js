@@ -5,6 +5,7 @@ const {
   getAllBooks,
   getSingleBook,
   updateBook,
+  deleteBook,
 } = require("./book.controller");
 const router = express.Router();
 
@@ -14,7 +15,7 @@ const router = express.Router();
 // get = when get something back from db
 // put/patch = when edit or update something
 // put replace everything
-// patch update partially 
+// patch update partially
 // delete = when delete something
 
 // Post a book
@@ -28,5 +29,8 @@ router.get("/:id", getSingleBook);
 
 // Update a book endpoint
 router.put("/edit/:id", updateBook);
+
+// Delete a book endpoint
+router.delete("/:id", deleteBook);
 
 module.exports = router;

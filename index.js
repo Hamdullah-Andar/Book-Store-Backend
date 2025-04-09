@@ -10,7 +10,7 @@ require("dotenv").config();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://k-book-store-frontend.vercel.app", "http://localhost:5173"],
+    origin: ["https://k-book-store-frontend.vercel.app"],
     credentials: true,
   })
 );

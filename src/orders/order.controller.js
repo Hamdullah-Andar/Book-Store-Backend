@@ -11,6 +11,20 @@ const createAnOrder = async (req, res) => {
   }
 };
 
+const getAllOrder = async (req, res) => {
+  try {
+    const orders = await Order.find().populate("productIds").sort({ createdAt: -1 });
+    if (!orders) {
+      return res.status(404).json({ message: "No orders found" });
+    }
+    console.log("Orders fetched successfully", orders);
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error fetching orders", error);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
+}
+
 const getOrderByEmail = async (req, res) => {
   try {
     const { email } = req.params;
@@ -28,5 +42,6 @@ const getOrderByEmail = async (req, res) => {
 
 module.exports = {
   createAnOrder,
+  getAllOrder,
   getOrderByEmail,
 };

@@ -13,17 +13,25 @@ const createAnOrder = async (req, res) => {
 
 const getAllOrder = async (req, res) => {
   try {
-    const orders = await Order.find().populate("productIds").sort({ createdAt: -1 });
-    if (!orders) {
-      return res.status(404).json({ message: "No orders found" });
-    }
-    console.log("Orders fetched successfully", orders);
-    res.status(200).json(orders);
-  } catch (error) {
-    console.error("Error fetching orders", error);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalOrders = await Order.countDocuments();
+    const totalPages = Math.ceil(totalOrders / limit);
+
+    const orders = await Order.find()
+      .skip(skip)
+      .limit(limit)
+      .populate("productIds") // populate products if you store references
+      .lean();
+
+    res.status(200).json({ orders, totalPages });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Failed to fetch orders" });
   }
-}
+};
 
 const getOrderByEmail = async (req, res) => {
   try {
